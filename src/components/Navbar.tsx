@@ -14,9 +14,14 @@ export function Navbar() {
           <Link href="/bookings" className="text-gray-600 hover:text-blue-600 transition-colors">
             My Bookings
           </Link>
-          <Button variant="outline" size="sm" asChild>
-            <Link href="/login">Sign In</Link>
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button variant="outline" size="sm" asChild>
+              <Link href="/login">Sign In</Link>
+            </Button>
+            <Button size="sm" asChild>
+              <Link href="/register">Sign Up</Link>
+            </Button>
+          </div>
         </div>
       </div>
     </nav>
