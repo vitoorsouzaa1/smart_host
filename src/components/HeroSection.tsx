@@ -1,5 +1,3 @@
-import { Button } from '@/components/ui/button'
-import Link from 'next/link'
 import { SearchHero } from './SearchHero'
 
 export function HeroSection() {
@@ -18,21 +16,6 @@ export function HeroSection() {
 
       {/* Search Hero Component */}
       <SearchHero />
-
-      {/* Action Buttons */}
-      <div className='flex flex-col sm:flex-row gap-4 justify-center pt-8'>
-        <Button size='lg' className='px-8 py-3 text-lg' asChild>
-          <Link href='/properties'>Browse Properties</Link>
-        </Button>
-        <Button
-          variant='outline'
-          size='lg'
-          className='px-8 py-3 text-lg'
-          asChild
-        >
-          <Link href='/host'>Become a Host</Link>
-        </Button>
-      </div>
     </div>
   )
 }

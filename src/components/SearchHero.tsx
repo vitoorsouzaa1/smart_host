@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 
@@ -10,6 +10,22 @@ export function SearchHero() {
     checkIn: '',
     checkOut: '',
   })
+
+  useEffect(() => {
+    const today = new Date()
+    const tomorrow = new Date(today)
+    tomorrow.setDate(tomorrow.getDate() + 1)
+
+    const formatDate = (date: Date) => {
+      return date.toISOString().split('T')[0]
+    }
+
+    setSearchData((prev) => ({
+      ...prev,
+      checkIn: formatDate(today),
+      checkOut: formatDate(tomorrow),
+    }))
+  }, [])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
