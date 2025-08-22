@@ -144,7 +144,7 @@ export function FeaturedSection({ properties }: FeaturedSectionProps) {
       <div className='mb-8'>
         <div className='sticky top-0 z-10 bg-white pt-8 pb-4'>
           <div className='flex justify-between items-center mb-2'>
-            {/* Header content */}
+            <h2 className='text-3xl font-bold text-gray-900'>Featured Properties</h2>
           </div>
         </div>
         <p className='text-gray-600 mb-4'>
