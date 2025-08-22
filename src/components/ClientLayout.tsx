@@ -1,12 +1,14 @@
-'use client';
+'use client'
 
-import { Navbar } from './Navbar';
+import { Navbar } from './Navbar'
+import { Footer } from './Footer'
 
 export function ClientLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <Navbar />
-      <main className="flex-1">{children}</main>
+      <main className='flex-1'>{children}</main>
+      <Footer />
     </>
-  );
+  )
 }
