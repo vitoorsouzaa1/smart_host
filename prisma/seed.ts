@@ -1,6 +1,6 @@
-import { PrismaClient } from '../src/generated/prisma';
+import { PrismaClient } from '../src/generated/prisma'
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient()
 
 async function main() {
   // Clean up existing data
@@ -16,35 +16,35 @@ async function main() {
     prisma.property.deleteMany(),
     prisma.amenity.deleteMany(),
     prisma.user.deleteMany(),
-  ]);
+  ])
 
   // Create users
   const adminUser = await prisma.user.create({
     data: {
       name: 'Admin User',
       email: 'admin@smarthost.com',
-      password: 'hashed_password_here', // In production, use proper password hashing
+      password: 'hashed_password_here',
       role: 'ADMIN',
     },
-  });
+  })
 
   const hostUser = await prisma.user.create({
     data: {
       name: 'Host User',
       email: 'host@smarthost.com',
-      password: 'hashed_password_here', // In production, use proper password hashing
+      password: 'hashed_password_here',
       role: 'HOST',
     },
-  });
+  })
 
   const regularUser = await prisma.user.create({
     data: {
       name: 'Regular User',
       email: 'user@smarthost.com',
-      password: 'hashed_password_here', // In production, use proper password hashing
+      password: 'hashed_password_here',
       role: 'USER',
     },
-  });
+  })
 
   // Create amenities
   const amenities = await Promise.all([
@@ -90,14 +90,14 @@ async function main() {
         category: 'SAFETY',
       },
     }),
-  ]);
+  ])
 
   // Create properties
   const property1 = await prisma.property.create({
     data: {
       title: 'Luxury Beach Villa',
       description: 'Beautiful villa with ocean views and private pool',
-      price: 250.00,
+      price: 250.0,
       address: '123 Beach Road',
       city: 'Miami',
       state: 'Florida',
@@ -111,7 +111,7 @@ async function main() {
       propertyType: 'VILLA',
       ownerId: hostUser.id,
       amenities: {
-        connect: amenities.map(amenity => ({ id: amenity.id })),
+        connect: amenities.map((amenity) => ({ id: amenity.id })),
       },
       images: {
         create: [
@@ -126,20 +126,20 @@ async function main() {
         ],
       },
     },
-  });
+  })
 
   const property2 = await prisma.property.create({
     data: {
       title: 'Downtown Apartment',
       description: 'Modern apartment in the heart of the city',
-      price: 120.00,
+      price: 120.0,
       address: '456 Main Street',
       city: 'New York',
       state: 'New York',
       country: 'USA',
       zipCode: '10001',
       latitude: 40.7128,
-      longitude: -74.0060,
+      longitude: -74.006,
       bedroomCount: 1,
       bathroomCount: 1,
       maxGuestCount: 2,
@@ -157,20 +157,52 @@ async function main() {
         ],
       },
     },
-  });
+  })
+
+  // Add the third property with all required fields
+  const property3 = await prisma.property.create({
+    data: {
+      title: 'Mountain Log Cabin',
+      description: 'Cozy cabin with fireplace and mountain views',
+      price: 195.0,
+      address: '789 Mountain Trail',
+      city: 'Aspen',
+      state: 'Colorado',
+      country: 'USA',
+      zipCode: '81611',
+      latitude: 39.1911,
+      longitude: -106.8175,
+      bedroomCount: 3,
+      bathroomCount: 2,
+      maxGuestCount: 6,
+      propertyType: 'VILLA',
+      ownerId: hostUser.id,
+      amenities: {
+        connect: amenities.slice(0, 3).map(a => ({ id: a.id }))
+      },
+      images: {
+        create: [
+          {
+            url: 'https://example.com/cabin1.jpg',
+            caption: 'Mountain view'
+          }
+        ]
+      }
+    }
+  })
 
   // Create a booking
   const booking = await prisma.booking.create({
     data: {
       startDate: new Date('2023-12-01'),
       endDate: new Date('2023-12-07'),
-      totalPrice: 1500.00,
+      totalPrice: 1500.0,
       guestCount: 2,
       userId: regularUser.id,
       propertyId: property1.id,
       specialRequests: 'Late check-in requested',
     },
-  });
+  })
 
   // Create a review
   await prisma.review.create({
@@ -181,12 +213,12 @@ async function main() {
       propertyId: property1.id,
       bookingId: booking.id,
     },
-  });
+  })
 
   // Create a payment
   await prisma.payment.create({
     data: {
-      amount: 1500.00,
+      amount: 1500.0,
       currency: 'USD',
       status: 'COMPLETED',
       paymentMethod: 'CREDIT_CARD',
@@ -194,14 +226,14 @@ async function main() {
       userId: regularUser.id,
       bookingId: booking.id,
     },
-  });
+  })
 
   // Create a conversation
   const conversation = await prisma.conversation.create({
     data: {
       participantIds: [regularUser.id, hostUser.id],
     },
-  });
+  })
 
   // Create messages
   await prisma.message.create({
@@ -211,7 +243,7 @@ async function main() {
       receiverId: hostUser.id,
       conversationId: conversation.id,
     },
-  });
+  })
 
   await prisma.message.create({
     data: {
@@ -220,7 +252,7 @@ async function main() {
       receiverId: regularUser.id,
       conversationId: conversation.id,
     },
-  });
+  })
 
   // Create notifications
   await prisma.notification.create({
@@ -229,7 +261,7 @@ async function main() {
       message: 'Your booking for Luxury Beach Villa has been confirmed.',
       userId: regularUser.id,
     },
-  });
+  })
 
   await prisma.notification.create({
     data: {
@@ -237,16 +269,16 @@ async function main() {
       message: 'You have a new booking request for your property.',
       userId: hostUser.id,
     },
-  });
+  })
 
-  console.log('Database seeded successfully!');
+  console.log('Database seeded successfully!')
 }
 
 main()
   .catch((e) => {
-    console.error(e);
-    process.exit(1);
+    console.error(e)
+    process.exit(1)
   })
   .finally(async () => {
-    await prisma.$disconnect();
-  });
+    await prisma.$disconnect()
+  })
