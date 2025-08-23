@@ -63,6 +63,7 @@ model Property {
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
   isActive        Boolean  @default(true)
+  isFeatured      Boolean  @default(false)  
   
   // Relations
   ownerId         String
@@ -74,6 +75,7 @@ model Property {
   @@index([ownerId])
   @@index([city])
   @@index([propertyType])
+  @@index([isFeatured])  
 }
 
 enum PropertyType {
@@ -269,3 +271,4 @@ enum NotificationType {
   MESSAGE_RECEIVED
   SYSTEM
 }
+

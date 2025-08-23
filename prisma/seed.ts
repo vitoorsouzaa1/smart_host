@@ -1,9 +1,12 @@
-import { PrismaClient } from '@prisma/client'
+import {
+  PrismaClient,
+  PropertyType,
+  AmenityCategory,
+} from '../src/generated/prisma'
 
-const prisma = new PrismaClient()
+export const prisma = new PrismaClient()
 
 async function main() {
-  // Clean up existing data
   await prisma.conversation.deleteMany({})
   await prisma.payment.deleteMany({})
   await prisma.review.deleteMany({})
@@ -41,32 +44,83 @@ async function main() {
 
   console.log('👥 Created users')
 
-  // Create amenities
+  // Create amenities with categories
   const amenities = await Promise.all([
-    prisma.amenity.create({ data: { name: 'WiFi', icon: '📶' } }),
-    prisma.amenity.create({ data: { name: 'Pool', icon: '🏊' } }),
-    prisma.amenity.create({ data: { name: 'Kitchen', icon: '🍳' } }),
-    prisma.amenity.create({ data: { name: 'Parking', icon: '🚗' } }),
-    prisma.amenity.create({ data: { name: 'Air Conditioning', icon: '❄️' } }),
-    prisma.amenity.create({ data: { name: 'Pet Friendly', icon: '🐕' } }),
-    prisma.amenity.create({ data: { name: 'Gym', icon: '💪' } }),
-    prisma.amenity.create({ data: { name: 'Beach Access', icon: '🏖️' } }),
-    prisma.amenity.create({ data: { name: 'Hot Tub', icon: '🛁' } }),
-    prisma.amenity.create({ data: { name: 'Fireplace', icon: '🔥' } }),
+    prisma.amenity.create({
+      data: { name: 'WiFi', icon: '📶', category: AmenityCategory.ESSENTIAL },
+    }),
+    prisma.amenity.create({
+      data: { name: 'Pool', icon: '🏊', category: AmenityCategory.FEATURE },
+    }),
+    prisma.amenity.create({
+      data: {
+        name: 'Kitchen',
+        icon: '🍳',
+        category: AmenityCategory.ESSENTIAL,
+      },
+    }),
+    prisma.amenity.create({
+      data: {
+        name: 'Parking',
+        icon: '🚗',
+        category: AmenityCategory.ESSENTIAL,
+      },
+    }),
+    prisma.amenity.create({
+      data: {
+        name: 'Air Conditioning',
+        icon: '❄️',
+        category: AmenityCategory.ESSENTIAL,
+      },
+    }),
+    prisma.amenity.create({
+      data: {
+        name: 'Pet Friendly',
+        icon: '🐕',
+        category: AmenityCategory.OTHER,
+      },
+    }),
+    prisma.amenity.create({
+      data: { name: 'Gym', icon: '💪', category: AmenityCategory.FEATURE },
+    }),
+    prisma.amenity.create({
+      data: {
+        name: 'Beach Access',
+        icon: '🏖️',
+        category: AmenityCategory.LOCATION,
+      },
+    }),
+    prisma.amenity.create({
+      data: { name: 'Hot Tub', icon: '🛁', category: AmenityCategory.FEATURE },
+    }),
+    prisma.amenity.create({
+      data: {
+        name: 'Fireplace',
+        icon: '🔥',
+        category: AmenityCategory.FEATURE,
+      },
+    }),
   ])
 
   console.log('🏠 Created amenities')
 
-  // Create properties with diverse locations and features
+  // Create properties with all required fields
   const properties = [
     {
       title: 'Luxury Beach Villa',
       description:
         'A stunning beachfront villa with panoramic ocean views, private pool, and direct beach access.',
       price: 450.0,
+      address: '123 Ocean Drive',
       city: 'Malibu',
+      state: 'California',
       country: 'United States',
-      hostId: hostUser.id,
+      zipCode: '90265',
+      bedroomCount: 4,
+      bathroomCount: 3,
+      maxGuestCount: 8,
+      propertyType: PropertyType.VILLA,
+      ownerId: hostUser.id,
       isFeatured: true,
       images: [
         {
@@ -91,9 +145,16 @@ async function main() {
       description:
         'Sleek apartment in the heart of the city with skyline views and premium amenities.',
       price: 180.0,
+      address: '456 Broadway',
       city: 'New York',
+      state: 'New York',
       country: 'United States',
-      hostId: hostUser.id,
+      zipCode: '10013',
+      bedroomCount: 2,
+      bathroomCount: 2,
+      maxGuestCount: 4,
+      propertyType: PropertyType.APARTMENT,
+      ownerId: hostUser.id,
       isFeatured: true,
       images: [
         {
@@ -117,9 +178,16 @@ async function main() {
       description:
         'Rustic cabin nestled in the mountains, perfect for a peaceful retreat with hiking trails nearby.',
       price: 120.0,
+      address: '789 Mountain Trail',
       city: 'Aspen',
+      state: 'Colorado',
       country: 'United States',
-      hostId: hostUser.id,
+      zipCode: '81611',
+      bedroomCount: 3,
+      bathroomCount: 2,
+      maxGuestCount: 6,
+      propertyType: PropertyType.CABIN,
+      ownerId: hostUser.id,
       isFeatured: true,
       images: [
         {
@@ -143,9 +211,15 @@ async function main() {
       description:
         'Charming loft in Montmartre with exposed beams, artistic decor, and rooftop terrace.',
       price: 220.0,
+      address: '12 Rue de Montmartre',
       city: 'Paris',
       country: 'France',
-      hostId: hostUser.id,
+      zipCode: '75018',
+      bedroomCount: 2,
+      bathroomCount: 1,
+      maxGuestCount: 4,
+      propertyType: PropertyType.APARTMENT,
+      ownerId: hostUser.id,
       isFeatured: true,
       images: [
         {
@@ -164,9 +238,14 @@ async function main() {
       description:
         'Overwater bungalow with crystal clear lagoon views, snorkeling gear, and private deck.',
       price: 380.0,
+      address: 'Matira Point',
       city: 'Bora Bora',
       country: 'French Polynesia',
-      hostId: hostUser.id,
+      bedroomCount: 1,
+      bathroomCount: 1,
+      maxGuestCount: 2,
+      propertyType: PropertyType.OTHER,
+      ownerId: hostUser.id,
       isFeatured: true,
       images: [
         {
@@ -190,9 +269,15 @@ async function main() {
       description:
         'Restored 16th-century villa surrounded by vineyards, olive groves, and rolling hills.',
       price: 320.0,
+      address: 'Via del Chianti 45',
       city: 'Florence',
       country: 'Italy',
-      hostId: hostUser.id,
+      zipCode: '50125',
+      bedroomCount: 5,
+      bathroomCount: 4,
+      maxGuestCount: 10,
+      propertyType: PropertyType.VILLA,
+      ownerId: hostUser.id,
       isFeatured: true,
       images: [
         {
@@ -217,9 +302,15 @@ async function main() {
       description:
         'Ultra-modern penthouse with panoramic city views, smart home technology, and rooftop garden.',
       price: 280.0,
+      address: '1-1-1 Shibuya',
       city: 'Tokyo',
       country: 'Japan',
-      hostId: hostUser.id,
+      zipCode: '150-0002',
+      bedroomCount: 3,
+      bathroomCount: 2,
+      maxGuestCount: 6,
+      propertyType: PropertyType.APARTMENT,
+      ownerId: hostUser.id,
       isFeatured: true,
       images: [
         {
@@ -243,9 +334,15 @@ async function main() {
       description:
         'Minimalist lakeside retreat with sauna, kayaks, and stunning aurora viewing opportunities.',
       price: 200.0,
+      address: 'Lakeside Road 15',
       city: 'Stockholm',
       country: 'Sweden',
-      hostId: hostUser.id,
+      zipCode: '11122',
+      bedroomCount: 4,
+      bathroomCount: 2,
+      maxGuestCount: 8,
+      propertyType: PropertyType.HOUSE,
+      ownerId: hostUser.id,
       isFeatured: true,
       images: [
         {
@@ -270,7 +367,7 @@ async function main() {
   for (const propertyData of properties) {
     const { images, amenityIds, ...propertyInfo } = propertyData
 
-    const property = await prisma.property.create({
+    await prisma.property.create({
       data: {
         ...propertyInfo,
         images: {
@@ -281,8 +378,6 @@ async function main() {
         },
       },
     })
-
-    console.log(`🏡 Created property: ${property.title}`)
   }
 
   console.log('✅ Seed completed successfully!')
