@@ -16,8 +16,6 @@ export function HeroSection() {
 
       {/* Search Hero Component */}
       <SearchHero />
-
-     
     </div>
   )
 }
