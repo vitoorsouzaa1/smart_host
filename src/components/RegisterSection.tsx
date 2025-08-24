@@ -11,6 +11,9 @@ import {
 } from '@/components/ui/card'
 import { FormInput } from '@/components/ui/FormInput'
 import { SocialButton } from '@/components/ui/SocialButton'
+import { Checkbox } from '@/components/ui/checkbox'
+import { Label } from '@/components/ui/label'
+import { Divider } from '@/components/ui/divider'
 import { useAuthForm, type RegisterFormData } from '@/hooks/useAuthForm'
 import { useAnimation } from '@/hooks/useAnimation'
 import Link from 'next/link'
@@ -23,7 +26,7 @@ const initialRegisterData: RegisterFormData = {
   confirmPassword: '',
 }
 
-// Separate checkbox component
+// Updated checkbox component using shadcn
 interface CheckboxProps {
   id: string
   checked: boolean
@@ -32,37 +35,27 @@ interface CheckboxProps {
   required?: boolean
 }
 
-const Checkbox = ({
+const CustomCheckbox = ({
   id,
   checked,
   onChange,
   children,
   required,
 }: CheckboxProps) => (
-  <div className='flex items-start'>
-    <input
+  <div className='flex items-start space-x-2'>
+    <Checkbox
       id={id}
-      type='checkbox'
       checked={checked}
-      onChange={(e) => onChange(e.target.checked)}
-      className='h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded mt-1'
+      onCheckedChange={onChange}
       required={required}
+      className='mt-1'
     />
-    <label htmlFor={id} className='ml-2 block text-sm text-gray-900 leading-5'>
+    <Label
+      htmlFor={id}
+      className='text-sm text-gray-900 leading-5 cursor-pointer'
+    >
       {children}
-    </label>
-  </div>
-)
-
-// Separate divider component
-const Divider = ({ text }: { text: string }) => (
-  <div className='relative my-6'>
-    <div className='absolute inset-0 flex items-center'>
-      <div className='w-full border-t border-gray-300'></div>
-    </div>
-    <div className='relative flex justify-center text-sm'>
-      <span className='px-2 bg-white text-gray-500'>{text}</span>
-    </div>
+    </Label>
   </div>
 )
 
@@ -158,7 +151,7 @@ export function RegisterSection() {
                 autoComplete='new-password'
               />
 
-              <Checkbox
+              <CustomCheckbox
                 id='terms'
                 checked={acceptedTerms}
                 onChange={setAcceptedTerms}
@@ -172,7 +165,7 @@ export function RegisterSection() {
                 <Link href='/privacy' className='text-blue-600 hover:underline'>
                   Privacy Policy
                 </Link>
-              </Checkbox>
+              </CustomCheckbox>
 
               <Button
                 type='submit'

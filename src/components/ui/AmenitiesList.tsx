@@ -1,3 +1,4 @@
+import { Badge } from '@/components/ui/badge'
 import { type Amenity } from '@/hooks/usePropertyCard'
 
 interface AmenitiesListProps {
@@ -20,17 +21,21 @@ export function AmenitiesList({
   return (
     <div className={className}>
       {visible.map((amenity) => (
-        <span 
+        <Badge 
           key={amenity.id} 
-          className="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded"
+          variant="secondary"
+          className="bg-gray-100 text-gray-800 hover:bg-gray-200 transition-colors"
         >
           {amenity.name}
-        </span>
+        </Badge>
       ))}
       {hasMore && (
-        <span className="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">
+        <Badge 
+          variant="outline"
+          className="bg-gray-100 text-gray-800 border-gray-300 hover:bg-gray-200 transition-colors"
+        >
           +{remaining} more
-        </span>
+        </Badge>
       )}
     </div>
   )
