@@ -1,36 +1,76 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Smart Host
 
-## Getting Started
+Bem-vindo ao **Smart Host** — uma plataforma moderna para descobrir, pesquisar e reservar acomodações de temporada ao redor do mundo. Este aplicativo é construído com Next.js e TypeScript, oferecendo uma experiência ágil tanto para hóspedes quanto para anfitriões.
 
-First, run the development server:
+## Como Funciona
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+O Smart Host permite que usuários naveguem por uma seleção de propriedades para temporada, desde vilas à beira-mar até cabanas aconchegantes nas montanhas e apartamentos modernos em grandes cidades. Os hóspedes podem:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Pesquisar e Filtrar Anúncios:** Utilize a busca na página inicial para filtrar propriedades por localização, datas e outros critérios, com formulários interativos e fáceis de usar.
+- **Explorar Propriedades em Destaque:** Veja um carrossel dinâmico com anúncios premium, que se adapta ao tamanho do dispositivo e à interação do usuário, graças ao hook responsivo de carrossel.
+- **Visualizar Detalhes das Propriedades:** Cada anúncio traz descrição detalhada, galeria de fotos, comodidades e informações para reserva.
+- **Experiência de Reserva Simples:** A interface foi desenvolvida para ser clara, rápida e transmitir confiança ao reservar.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Os dados das propriedades são gerenciados e populados via Prisma ORM, incluindo diversos tipos de comodidades e propriedades. O código inclui hooks para carrossel automático, layouts responsivos e formulários de busca intuitivos.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Estrutura do Projeto
 
-## Learn More
+- `.gitignore` — Arquivos e pastas ignorados pelo controle de versão.
+- `README.md` — Documentação do projeto.
+- `components.json` — Configuração ou listagem de componentes de UI.
+- `eslint.config.mjs` — Configuração do ESLint para garantir qualidade do código.
+- `next.config.ts` — Configuração do framework Next.js.
+- `package.json` & `package-lock.json` — Gerenciamento de dependências e scripts.
+- `postcss.config.mjs` — Configuração do processamento de CSS.
+- `prisma/` — Esquema e migrações do banco de dados (Prisma ORM). Scripts de seed fornecem exemplos de propriedades e comodidades.
+- `public/` — Arquivos estáticos (imagens, fontes, etc.).
+- `src/` — Código fonte principal da aplicação. Destaques:
+  - `src/hooks/useCarousel.ts`: Implementa um carrossel responsivo e automático para exibir propriedades em destaque.
+  - `src/components/HeroSection.tsx` & `src/components/SearchHero.tsx`: UI principal da página inicial e formulário de busca.
+- `tsconfig.json` — Configuração do TypeScript.
 
-To learn more about Next.js, take a look at the following resources:
+## Tecnologias Utilizadas
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **TypeScript** — JavaScript tipado para desenvolvimento escalável.
+- **Next.js** — Framework baseado em React para renderização no servidor e geração de sites estáticos.
+- **Prisma** — ORM para gerenciamento de dados de forma segura e tipada.
+- **ESLint** — Ferramenta para manter a qualidade e consistência do código.
+- **PostCSS** — Processamento moderno de CSS.
+- **CSS/JavaScript** — Estilização e scripts da interface.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Primeiros Passos
 
-## Deploy on Vercel
+1. **Instale as dependências:**
+   ```bash
+   npm install
+   ```
+2. **Execute o servidor de desenvolvimento:**
+   ```bash
+   npm run dev
+   ```
+3. **Faça o build para produção:**
+   ```bash
+   npm run build
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Abra [http://localhost:3000](http://localhost:3000) para visualizar o app. Edite os arquivos em `src/` para personalizar; a página será atualizada automaticamente durante o desenvolvimento.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Configuração do Projeto
+
+- Ajuste configurações do TypeScript em `tsconfig.json`.
+- Modifique parâmetros do Next.js em `next.config.ts`.
+- Gerencie o esquema do banco de dados na pasta `prisma/`.
+- Adicione arquivos estáticos na pasta `public/`.
+- Coloque o código principal da aplicação na pasta `src/`.
+
+## Contribua
+
+Sinta-se à vontade para abrir issues ou enviar pull requests para melhorar o projeto!
+
+## Licença
+
+Este projeto está licenciado sob a Licença MIT.
+
+---
+
+Para mais detalhes, veja a documentação existente no `README.md` ou explore o código!
