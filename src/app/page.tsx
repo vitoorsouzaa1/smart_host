@@ -3,13 +3,13 @@ import { HeroSection } from '@/components/HeroSection'
 import { FeaturedSection } from '@/components/FeaturedSection'
 import { Suspense } from 'react'
 
-// Separate data fetching function
+// Enhanced data fetching with better error handling
 async function getFeaturedProperties() {
   try {
     const properties = await prisma.property.findMany({
       where: {
         isActive: true,
-        isFeatured: true, // Only get featured properties
+        isFeatured: true,
       },
       include: {
         images: {
@@ -24,7 +24,7 @@ async function getFeaturedProperties() {
           select: { name: true },
         },
       },
-      take: 8, // Get more properties for better carousel
+      take: 8,
       orderBy: { createdAt: 'desc' },
     })
 
@@ -35,8 +35,18 @@ async function getFeaturedProperties() {
     }))
   } catch (error) {
     console.error('Error fetching featured properties:', error)
+    // Return empty array instead of throwing to prevent page crash
     return []
   }
+}
+
+// Add error boundary for featured properties
+function FeaturedPropertiesWithErrorBoundary() {
+  return (
+    <Suspense fallback={<FeaturedPropertiesLoading />}>
+      <FeaturedPropertiesSection />
+    </Suspense>
+  )
 }
 
 // Loading component
@@ -76,7 +86,7 @@ export default function Home() {
 }
 
 // Add metadata
-export const metadata = {
+export const metadata: import('next').Metadata = {
   title: 'SmartHost - Find Your Perfect Vacation Rental',
   description:
     'Discover amazing properties for your next trip. Book with confidence and enjoy unforgettable stays around the world.',
