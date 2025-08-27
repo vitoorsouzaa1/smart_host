@@ -16,9 +16,10 @@ import { usePropertyCard, type Property } from '@/hooks/usePropertyCard'
 
 type PropertyCardProps = {
   property: Property
+  className?: string
 }
 
-export function PropertyCard({ property }: PropertyCardProps) {
+export function PropertyCard({ property, className = '' }: PropertyCardProps) {
   const {
     formattedPrice,
     primaryImage,
@@ -29,15 +30,15 @@ export function PropertyCard({ property }: PropertyCardProps) {
   } = usePropertyCard({ property })
 
   return (
-    <Card className='overflow-hidden h-full flex flex-col'>
+    <Card className={`overflow-hidden h-full flex flex-col ${className}`}>
       <PropertyImage image={primaryImage} title={property.title} />
       <CardHeader>
         <CardTitle className='line-clamp-1'>{property.title}</CardTitle>
         <CardDescription>{locationText}</CardDescription>
       </CardHeader>
       <CardContent className='flex-grow'>
-        <p className='font-medium text-lg'>{formattedPrice} per night</p>
-        <p className='text-gray-600 mt-2 line-clamp-2'>
+        <p className='font-bold text-xl text-blue-600 mb-2'>{formattedPrice} <span className="text-sm text-gray-500 font-normal">per night</span></p>
+        <p className='text-gray-600 mt-2 line-clamp-2 mb-4'>
           {truncatedDescription}
         </p>
         <AmenitiesList
@@ -46,9 +47,12 @@ export function PropertyCard({ property }: PropertyCardProps) {
           hasMore={displayAmenities.hasMore}
         />
       </CardContent>
-      <CardFooter>
-        <Button asChild variant='outline' className='w-full'>
+      <CardFooter className="flex gap-2">
+        <Button asChild variant='outline' className='flex-1'>
           <Link href={propertyUrl}>View Details</Link>
+        </Button>
+        <Button asChild className='flex-1'>
+          <Link href={`/booking/${property.id}`}>Book Now</Link>
         </Button>
       </CardFooter>
     </Card>
