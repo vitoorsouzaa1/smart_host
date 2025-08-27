@@ -2,6 +2,7 @@
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
+import { DatePicker } from '@/components/ui/DatePicker'
 import { useSearchForm } from '@/hooks/useSearchForm'
 
 // Separate input component for better reusability
@@ -15,34 +16,51 @@ interface SearchInputProps {
   required?: boolean
 }
 
-const SearchInput = ({ 
-  id, 
-  label, 
-  type, 
-  placeholder, 
-  value, 
-  onChange, 
-  required = false 
-}: SearchInputProps) => (
-  <div className='flex-1'>
-    <label
-      htmlFor={id}
-      className='block text-sm font-medium text-gray-700 mb-2'
-    >
-      {label}
-    </label>
-    <input
-      id={id}
-      name={id}
-      type={type}
-      placeholder={placeholder}
-      value={value}
-      onChange={(e) => onChange(e.target.value)}
-      className='w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all text-gray-900 placeholder-gray-500'
-      required={required}
-    />
-  </div>
-)
+const SearchInput = ({
+  id,
+  label,
+  type,
+  placeholder,
+  value,
+  onChange,
+  required = false,
+}: SearchInputProps) => {
+  if (type === 'date') {
+    return (
+      <DatePicker
+        id={id}
+        label={label}
+        value={value ? new Date(value) : undefined}
+        onChange={(date) =>
+          onChange(date ? date.toISOString().split('T')[0] : '')
+        }
+        placeholder={placeholder}
+        minDate={new Date()} // Prevent past dates
+      />
+    )
+  }
+
+  return (
+    <div className='flex-1'>
+      <label
+        htmlFor={id}
+        className='block text-sm font-medium text-gray-700 mb-2'
+      >
+        {label}
+      </label>
+      <input
+        id={id}
+        name={id}
+        type={type}
+        placeholder={placeholder}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className='w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all text-gray-900 placeholder-gray-500'
+        required={required}
+      />
+    </div>
+  )
+}
 
 export function SearchHero() {
   const { searchData, isLoading, updateField, handleSubmit } = useSearchForm()
@@ -69,7 +87,7 @@ export function SearchHero() {
               onChange={(value) => updateField('location', value)}
               required
             />
-            
+
             <SearchInput
               id='checkIn'
               label='Check-in'
@@ -78,7 +96,7 @@ export function SearchHero() {
               onChange={(value) => updateField('checkIn', value)}
               required
             />
-            
+
             <SearchInput
               id='checkOut'
               label='Check-out'
@@ -87,7 +105,7 @@ export function SearchHero() {
               onChange={(value) => updateField('checkOut', value)}
               required
             />
-            
+
             <div className='flex-shrink-0'>
               <Button
                 type='submit'
