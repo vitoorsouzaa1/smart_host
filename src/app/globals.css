@@ -1,5 +1,5 @@
-@import "tailwindcss";
-@import "tw-animate-css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -76,6 +76,15 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+
+  /* Enhanced Brand Colors - Safe additions */
+  --brand-primary: #3b82f6;
+  --brand-secondary: #06b6d4;
+  --brand-accent: #f59e0b;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --error: #ef4444;
+  --info: #3b82f6;
 }
 
 .dark {
@@ -110,6 +119,15 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+
+  /* Dark mode brand colors */
+  --brand-primary: #60a5fa;
+  --brand-secondary: #22d3ee;
+  --brand-accent: #fbbf24;
+  --success: #34d399;
+  --warning: #fbbf24;
+  --error: #f87171;
+  --info: #60a5fa;
 }
 
 @layer base {
@@ -118,5 +136,41 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+/* Safe utility classes that won't break existing components */
+@layer components {
+  .gradient-text {
+    background: linear-gradient(
+      135deg,
+      var(--brand-primary),
+      var(--brand-accent)
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .btn-gradient {
+    background: linear-gradient(
+      135deg,
+      var(--brand-primary),
+      var(--brand-secondary)
+    );
+    @apply text-white font-medium px-6 py-3 rounded-lg shadow-md hover:shadow-lg transition-all duration-300;
+  }
+
+  .card-hover {
+    @apply transition-all duration-300 hover:shadow-lg hover:scale-[1.02];
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
   }
 }
