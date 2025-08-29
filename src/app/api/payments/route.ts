@@ -24,7 +24,11 @@ export async function POST(request: NextRequest) {
     const validMethods = ['credit-card', 'pix', 'paypal']
     if (!validMethods.includes(method)) {
       return NextResponse.json(
-        { error: `Unsupported payment method. Valid methods: ${validMethods.join(', ')}` },
+        {
+          error: `Unsupported payment method. Valid methods: ${validMethods.join(
+            ', '
+          )}`,
+        },
         { status: 400 }
       )
     }
@@ -48,7 +52,7 @@ export async function POST(request: NextRequest) {
     }
   } catch (error) {
     console.error('Payment processing error:', error)
-    
+
     // Handle JSON parsing errors
     if (error instanceof SyntaxError) {
       return NextResponse.json(
@@ -56,7 +60,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       )
     }
-    
+
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
