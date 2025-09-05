@@ -13,7 +13,7 @@ export interface RegisterFormData {
 }
 
 export interface AuthFormOptions {
-  onSuccess?: (data: any) => void
+  onSuccess?: <T extends LoginFormData | RegisterFormData>(data: T) => void
   onError?: (error: string) => void
   validatePasswords?: boolean
 }
@@ -38,7 +38,9 @@ export const useAuthForm = <T extends LoginFormData | RegisterFormData>(
   )
 
   const validateForm = useCallback((): boolean => {
-    const newErrors: Partial<Record<keyof T, string>> = {}
+    // Criando um objeto de erros tipado que pode conter todas as chaves possíveis
+    type AllFormFields = LoginFormData & RegisterFormData
+    const newErrors: Partial<Record<keyof AllFormFields, string>> = {}
 
     // Email validation
     if ('email' in formData) {
@@ -68,7 +70,8 @@ export const useAuthForm = <T extends LoginFormData | RegisterFormData>(
       newErrors.name = 'Name is required'
     }
 
-    setErrors(newErrors)
+    // Convertendo o objeto de erros para o tipo esperado pelo estado
+    setErrors(newErrors as Partial<Record<keyof T, string>>)
     return Object.keys(newErrors).length === 0
   }, [formData, options.validatePasswords])
 
